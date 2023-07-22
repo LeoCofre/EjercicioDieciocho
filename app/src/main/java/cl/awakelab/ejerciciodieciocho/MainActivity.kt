@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import cl.awakelab.ejerciciodieciocho.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -24,8 +25,11 @@ class MainActivity : AppCompatActivity() {
 
             guardarDatos(texto, entero, decimal, switch)
         }
-        binding.btMostrar.setOnClickListener{
+        binding.btMostrar.setOnClickListener {
             mostrarDatos()
+        }
+        binding.btBorrar.setOnClickListener {
+            borrarDatos()
         }
     }
 
@@ -36,18 +40,29 @@ class MainActivity : AppCompatActivity() {
         mSharedPreferences.edit().putBoolean("My Boolean", booleano).apply()
     }
 
-    private fun mostrarDatos(){
-        val texto = mSharedPreferences.getString("My texto","")
-        val entero = mSharedPreferences.getInt("My Entero",0)
-        val decimal = mSharedPreferences.getFloat("My Decimal",0.0f)
-        val booleano = mSharedPreferences.getBoolean("My boolean",true)
+    private fun mostrarDatos() {
+        val texto = mSharedPreferences.getString("My texto", "")
+        val entero = mSharedPreferences.getInt("My Entero", 0)
+        val decimal = mSharedPreferences.getFloat("My Float", 0.0f)
+        val booleano = mSharedPreferences.getBoolean("My Boolean", true)
 
         binding.tvTexto.text = texto
         binding.tvEntero.text = entero.toString()
         binding.tvDecimal.text = decimal.toString()
+        binding.tvSwitch.text = booleano.toString()
         binding.switch1.isChecked = booleano
 
 
-
     }
+
+    private fun borrarDatos() {
+        binding.tvTexto.text = ""
+        binding.tvEntero.text = ""
+        binding.tvDecimal.text = ""
+        binding.tvSwitch.text = ""
+        binding.switch1.isChecked = false
+
+        mSharedPreferences.edit().clear()
+    }
+
 }
